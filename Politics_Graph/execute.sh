@@ -1,5 +1,4 @@
-fileteste=$1
+in=$1
+out=$2
 
-javac Main.java
-
-java Main $fileteste
+java Main $in $out
