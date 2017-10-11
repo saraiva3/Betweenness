@@ -1,23 +1,24 @@
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 public class Betweenness {
 
-	private HashMap<Integer, Double> betweenness;
+
 
 	public Betweenness() {
-		betweenness = new HashMap<Integer, Double>();
+		
 	}
 
-	public void calculateBetweeness(Graph graph, ArrayList<List<Integer>> allShortestPaths, int v1, int v2) {
+	/*public void calculateBetweeness(Graph graph, ArrayList<List<Integer>> allShortestPaths, int v1, int v2) {
 
 		double calculos = 0.0;
 		double listSize = allShortestPaths.size();
@@ -52,12 +53,36 @@ public class Betweenness {
 			}
 
 		}
+		System.gc();
+		return;
+	}*/
+	public void computeAllPathsFromPrev( Graph graph, Deputy v2, double listSize) {
+		
+	
+		if (v2.getFatherList() == null) {		
+			return;			
+		} else {
+			if (!graph.betweenness.containsKey(v2.id)) {				
+				graph.betweenness.put(v2.id, 1.0);
+			} else {
+				
+				
+					System.out.println((double)(1/listSize));
+					System.out.println("ID" + v2.id);
+					graph.betweenness.put(v2.id, graph.betweenness.get(v2.id) + (1/listSize));
+				
+			}		
+			for(int i =0; i < v2.getFatherList().size(); i++) {	
+					
+				computeAllPathsFromPrev(graph,v2.getFatherList().get(i),v2.getFatherList().size());
+			}			
+			
+		}		
 	}
-
-	public void sortListRecordFile(Graph graph, String filename) {
-
-		Set<Entry<Integer, Double>> mapEntries = betweenness.entrySet();
-		List<Entry<Integer, Double>> aList = new LinkedList<Entry<Integer, Double>>(mapEntries);
+	
+	public void sortListRecordFile( HashMap<Integer, Double> betweenness, String filename) {	
+		
+		List<Entry<Integer, Double>> aList = new LinkedList<Entry<Integer, Double>>(betweenness.entrySet());
 
 		Collections.sort(aList, new Comparator<Entry<Integer, Double>>() {
 			@Override
@@ -77,32 +102,28 @@ public class Betweenness {
 				}
 			}
 		});
-		
+	
 		Map<Integer, Double> aMap2 = new LinkedHashMap<Integer, Double>();
 		for (Entry<Integer, Double> entry : aList) {
 			aMap2.put(entry.getKey(), entry.getValue());
 		}
-		for (Entry<Integer, Double> entry : aMap2.entrySet()) {
-			System.out.print(entry.getKey() + ",");
+		for (Entry<Integer, Double> entry : aList) {
+			System.out.println(entry.getKey() + " FREQUENCIA  "+ entry.getValue());
 		}
-
-		/*
-		 * PrintWriter writer; try { writer = new PrintWriter(filename, "UTF-8"); for
-		 * (Entry<Integer, Integer> entry : aMap2.entrySet()) {
-		 * writer.println(entry.getKey() + ","); }
-		 * 
-		 * writer.close(); } catch (FileNotFoundException | UnsupportedEncodingException
-		 * e) { e.printStackTrace(); }
-		 */
+		  PrintWriter writer; 
+		  try {
+			  writer = new PrintWriter(filename, "UTF-8"); 
+			  for(int i =0; i<aList.size();i++) {
+				  if(i == aList.size()-1) {
+					  writer.print(aList.get(i).getKey() );
+				  }else
+				  writer.print(aList.get(i).getKey() + ",");
+			  }		  
+			  writer.close(); 
+		  } catch (IOException e) { e.printStackTrace(); }
+		 
+			aList = null;
+			System.gc();
 	}
-
-	public void printFrequency(Graph graph) {
-		Deputy deputies = graph.deputyList;
-		while (deputies != null) {
-			if (betweenness.get(deputies.id) != null) {
-				System.out.println("ID: " + deputies.id + "Value " + betweenness.get(deputies.id));
-			}
-			deputies = deputies.neigh;
-		}
-	}
+	
 }

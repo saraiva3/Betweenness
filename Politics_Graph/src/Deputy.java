@@ -3,31 +3,20 @@ import java.util.List;
 public class Deputy implements Comparable<Deputy> {
 
 	public int id;
+	public double totalInfluence = Integer.MAX_VALUE;	
 	public Connection connecteds;
 	public Deputy neigh;
-	public double totalInfluence = Integer.MAX_VALUE;	
-	private Deputy father;
 	private List<Deputy> fatherList;
 
 	public Deputy(int id) {		
 		this.id = id;
-
 	}
-
 	public void setTotalInfluence(double influence) {
 		this.totalInfluence = influence;
 	}
 
-	public void setFather(Deputy father) {
-		this.father = father;
-	}
-
 	public List<Deputy> getFatherList() {
 		return fatherList;
-	}
-	
-	public Deputy getFather() {
-		return this.father;
 	}
 	
 	public void setFatherList(List<Deputy> fatherList) {
@@ -37,7 +26,6 @@ public class Deputy implements Comparable<Deputy> {
 	public double getTotalInfluence() {
 		return this.totalInfluence;
 	}
-
 
 	public void addToAdjacencyList(Connection connected) {
 		connected.next = connecteds;

@@ -1,13 +1,12 @@
 
 public class Connection {
 
-	public Deputy one;
+	
 	public Deputy two;
 	public double influence;
 	public Connection next; 
 
-	public Connection(Deputy one, Deputy two, double weight) {
-		this.one = one;
+	public Connection(Deputy two, double weight) {		
 		this.two = two;
 		this.influence = weight;
 	}
