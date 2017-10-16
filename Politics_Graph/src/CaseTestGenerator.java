@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class CaseTestGenerator {
 
 	public static void main(String args[]) {
-		int size = 100;
+		int size = 600;
 		boolean dense = false;
 		generateCaseTest(size, dense);
 
@@ -13,53 +13,35 @@ public class CaseTestGenerator {
 
 	public static void generateCaseTest(int size, boolean dense) {
 
-		int column1[], column2[], column3[];
-		if (dense) {
-			column1 = new int[size * 2];
-			column2 = new int[size * 2];
-			column3 = new int[size * 2];
-			int j = 0;
-			for (int i = 0; i < size * 2; i++) {
-				int randomNum = ThreadLocalRandom.current().nextInt(1, 99 + 1);
-				if (i < size) {
-					column1[i] = i;
-					column2[i] = i + 1;
-					column3[i] = randomNum;
-				} else {
+		int column1[], column2[];
 
-					column1[i] = j;
-					column2[i] = j + 2;
-					column3[i] = randomNum;
-					j++;
-				}
-			}
-
-		} else {
 			column1 = new int[size];
 			column2 = new int[size];
-			column3 = new int[size];
+		
 
 			for (int i = 0; i < size; i++) {
-				int randomNum = ThreadLocalRandom.current().nextInt(1, 99 + 1);
+				
 				column1[i] = i;
-				column2[i] = i + 1;
-				column3[i] = randomNum;
+				column2[i] = i + 1;				
 			}
 
-		}
+		
 
 		PrintWriter writer;
 		try {
-			writer = new PrintWriter(size + ".txt", "UTF-8");
+		
 			if (dense) {
-
-				for (int i = 0; i < size * 2; i++) {
-					writer.println(column1[i] + "," + column2[i] + "," + column3[i]);
-				}
-
-			} else {
+				writer = new PrintWriter(size + "DE.txt", "UTF-8");
 				for (int i = 0; i < size; i++) {
-					writer.println(column1[i] + "," + column2[i] + "," + column3[i]);
+					for(int j=i+1;j<size-1;j++) {						
+						writer.println(column1[i] + "," + column2[j] + "," + ThreadLocalRandom.current().nextInt(1, 99 + 1));
+					}				
+				}			
+			} else {
+				writer = new PrintWriter(size + "ES.txt", "UTF-8");
+				for(int j=0; j<size/4 ; j++)
+				for (int i = j; i < size; i++) {
+					writer.println(column1[j] + "," + column2[i] + "," +ThreadLocalRandom.current().nextInt(1, 99 + 1));
 				}
 			}
 

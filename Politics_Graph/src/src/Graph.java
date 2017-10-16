@@ -54,7 +54,6 @@ public class Graph {
 		first = null;
 		second = null;
 		connected = null;
-	
 	}
 
 	public void getAllShortestPathsTo(Deputy v2) {
