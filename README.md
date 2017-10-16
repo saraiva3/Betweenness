@@ -10,3 +10,4 @@ The code is configured as an Eclipse project, so just import it on your eclipse.
 ### Linux
 Use the shell script file inside src. Remember to give it running permission (chmod +x execute.sh), the parameter should be the graph file (e.g Ex1.txt, Ex2.txt, Ex3.txt).
 
+## Input File:
